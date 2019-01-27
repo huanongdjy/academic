@@ -1,9 +1,9 @@
 <template>
   <div style="login">
     dasda
-    <!-- <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px"  size="medium" class="demo-ruleForm">
+    <el-form :model="ruleForm2" status-icon :rules="rules2" ref="ruleForm2" label-width="100px"  size="medium" class="demo-ruleForm">
       <el-form-item label="密码" prop="pass" >
-        <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" ></el-input>
+        <el-input type="password" v-model="ruleForm2.pass" autocomplete="off" style="width:200px"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="checkPass">
         <el-input type="password" v-model="ruleForm2.checkPass" autocomplete="off"  style="width:200px"></el-input>
@@ -12,7 +12,7 @@
         <el-button type="primary" @click="submitForm('ruleForm2')">提交</el-button>
         <el-button @click="resetForm('ruleForm2')">重置</el-button>
       </el-form-item>
-    </el-form> -->
+    </el-form>
   </div>
 </template>
 
