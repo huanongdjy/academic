@@ -1,31 +1,16 @@
 <template>
   <div class="index-wrapper">
-    <div class="show-activity" @mouseover="stop" @mouseout="play()">
-      <show :title="'近期活动'" :isMore="false">
-        <swiper :options="swiperOption" :not-next-tick="notNextTick" ref="mySwiper">
-          <swiper-slide v-for="item in hotComoditys" :key="item.productId">
-            <router-link :to="'categoryDetails/'+item.productId">
-              <img :src="baseUrl+item.photos[0].url"  height="200px">
-            </router-link>
-          </swiper-slide>
-          <div class="swiper-pagination"  slot="pagination"></div>
-        </swiper>
-      </show>
-    </div>
-    <div class="show-oldactivity" @mouseover="stop" @mouseout="play()">
-      <show :title="'往期活动'" :isMore="false">
-        <swiper :options="swiperOption" :not-next-tick="notNextTick" ref="mySwiper">
-          <swiper-slide v-for="item in hotComoditys" :key="item.productId">
-
-            <router-link :to="'categoryDetails/'+item.productId">
-              <img :src="baseUrl+item.photos[0].url"  height="200px">
-            </router-link>
-          </swiper-slide>
-          <div class="swiper-pagination"  slot="pagination"></div>
-        </swiper>
-      </show>
-    </div>
     <div class="center-wrapper">
+      <div class="show-activity" >
+        <show :title="'近期活动'">
+          <info :info="newactivity" :hasImg="true" :infoType="'近期活动'" @select="selectItem"></info>
+        </show>
+      </div>
+      <div class="show-oldactivity" >
+        <show :title="'往期活动'">
+          <info :info="oldactivity" :hasImg="true" :infoType="'往期活动'" @select="selectItem"></info>
+        </show>
+      </div>
       <div class="show-news">
         <show :title="'学术新闻'">
           <info :info="news" :hasImg="true" :infoType="'学术新闻'" @select="selectItem"></info>
@@ -48,21 +33,51 @@
 <script>
 import show from './Show'
 import info from './Info'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+// import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { readInformation } from '../../api/index.js'
 export default {
   components: {
     show,
-    info,
-    swiper,
-    swiperSlide
+    info
+    // swiper,
+    // swiperSlide
   },
   methods: {
-    stop () {
-      this.$refs.mySwiper.swiper.stopAutoplay()
-    },
-    play () {
-      this.$refs.mySwiper.swiper.startAutoplay()
+    selectItem (id, title) {
+      this.flag = {
+        '学术新闻': {
+          path: 'news',
+          data: 'news'
+        },
+        '学术成果': {
+          path: 'achievements',
+          data: 'achievements'
+        },
+        '相关知识': {
+          path: 'knowledge',
+          data: 'knowledge'
+        },
+        '近期活动': {
+          path: 'newactivity',
+          data: 'newactivity'
+        },
+        '往期活动': {
+          path: 'oldactivity',
+          data: 'oldactivity'
+        }
+      }
+      let infoData = this[this.flag[title].data].find(item => {
+        return item.informationId === id
+      })
+      this.$router.push({path: this.flag[title].path, query: {infoData}})
+      readInformation(id)
     }
+    // stop () {
+    //   this.$refs.mySwiper.swiper.stopAutoplay()
+    // },
+    // play () {
+    //   this.$refs.mySwiper.swiper.startAutoplay()
+    // }
   }
 }
 </script>
@@ -74,10 +89,10 @@ export default {
   margin: 10px auto
   .show-activity
     flex: 1
-    font-size: 30px
+    margin-right: 10px
   .show-oldactivity
     flex: 1
-    font-size: 30px
+    margin-right: 10px
   .center-wrapper
     display: flex
     justify-content: space-between

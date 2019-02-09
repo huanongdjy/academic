@@ -26,6 +26,7 @@
 </template>
 <script>
 import Info from '../components/Info'
+import { getInformationByType, readInformation } from '../../api/index.js'
 export default {
   components: {
     Info
@@ -41,7 +42,6 @@ export default {
       news: [],
       infoData: {},
       loading: false,
-      input: '',
       flag: {
         'news': '学术新闻',
         'achievements': '学术成果',
@@ -52,7 +52,9 @@ export default {
       flag1: {
         '/news': 'news',
         '/achievements': 'achievements',
-        '/chances': 'chances'
+        '/chances': 'chances',
+        '/newactivity': 'newactivity',
+        '/oldactivity': 'oldactivity'
       },
       isShow: true,
       currentPage: 1,
@@ -61,11 +63,34 @@ export default {
     }
   },
   methods: {
-    selectItem () {
+    selectItem (id) {
+      this.infoData = this.news.find(item => {
+        return item.informationId === id
+      })
+      this.isShow = false
+      this.$router.push(this.$route.path + '/' + id)
+      readInformation(id)
     }
   },
   created () {
-    console.log(this.flag[this.$route.params.name])
+    this.loading = true
+    let path = this.flag1[this.$route.path]
+    getInformationByType(path, 15, this.currentPage).then(res => {
+      if (res.data.status === 1) {
+        let data = res.data.data
+        if (!data || data.recordList === null) {
+          this.news = []
+          this.loading = false
+          return
+        }
+        this.pageCount = data.pageCount
+        data.recordList.forEach(item => {
+          item.time = item.time.slice(0, 10)
+        })
+        this.news = data.recordList
+      }
+      this.loading = false
+    })
   }
 }
 </script>
