@@ -2,7 +2,7 @@ import axios from './axios'
 import {URL} from '../api/variable'
 
 // 获取首页信息展示
-export function getInformationByType(type, pageSize = 5, currentPage = 1) {
+export function getInformationByType (type, pageSize = 5, currentPage = 1) {
   if (type === 'cultivation' || type === 'knowledge') {
     pageSize = 10
   }

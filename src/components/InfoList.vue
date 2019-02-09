@@ -60,8 +60,12 @@ export default {
       pageCount: 4
     }
   },
+  methods: {
+    selectItem () {
+    }
+  },
   created () {
-    console.log(this.$route)
+    console.log(this.flag[this.$route.params.name])
   }
 }
 </script>

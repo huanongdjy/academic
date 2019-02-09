@@ -1,7 +1,7 @@
 <template>
   <div class="footer">
     <div class="text">
-      Copyright 2017 华南农业大学数学与信息学院 版权所有
+      Copyright 2019 华南农业大学数学与信息学院 版权所有
       <br>
       联系我们：
       <span class="connect">Email:</span>
