@@ -1,18 +1,22 @@
 import axios from 'axios'
+import Qs from 'qs'
 
 // import cookie from '../../static/js/cookie.js'
 
 // axios默认配置
 axios.defaults.timeout = 10000 //  超时时间
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+// axios.defaults.headers.post['Content-Type'] = 'text/plain'
 axios.defaults.baseURL = 'http://localhost:8083' //   默认地址
 
 // 整理数据
-axios.defaults.transformRequest = function (data) {
-// data = Qs.stringify(data);
-  data = JSON.stringify(data)
-  console.log(data)
-  return data
-}
+// axios.defaults.transformRequest = function (data) {
+//   // data = Qs.stringify(data)
+//   data = JSON.stringify(data)
+//   console.log(data)
+//   return data
+// }
 
 // 路由请求拦截
 // http request 拦截器

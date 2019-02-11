@@ -10,10 +10,12 @@ export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
     pageSize,
     type
   }
+  console.log('JSON.stringify(inputjson): ' + JSON.stringify(inputjson))
   return axios({
     url: '/getInformationWithPage',
-    data: 'inputjson=' + JSON.stringify(inputjson),
-    // data: 'inputjson=' + inputjson,
+    data: inputjson,
+    contentType : "application/json;charset=utf-8",
+    // data: inputjson,
     method: 'post',
     withCredentials: true
   })
