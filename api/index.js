@@ -1,7 +1,7 @@
 import axios from './axios'
 
 // 获取首页信息展示
-export function getInformationByType (type, pageSize = 5, currentPage = 1) {
+export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
   if (type === 'cultivation' || type === 'knowledge') {
     pageSize = 10
   }
@@ -11,14 +11,23 @@ export function getInformationByType (type, pageSize = 5, currentPage = 1) {
     type
   }
   return axios({
-    url: `getInformationByType.action`,
-    method: 'post',
+    url: '/getInformationWithPage',
     data: 'inputjson=' + JSON.stringify(inputjson),
+    // data: 'inputjson=' + inputjson,
+    method: 'post',
     withCredentials: true
   })
+    .then(response => {
+      console.log('返回消息')
+      console.log(response.data)
+    })
+    .catch(e => {
+      console.log('错误消息')
+      console.log(e)
+    })
 }
 
-export function readInformation(id) {
+export function readInformation (id) {
   return axios({
     url: `readInformation.action`,
     data: 'inputjson=' + id,

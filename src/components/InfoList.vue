@@ -26,7 +26,7 @@
 </template>
 <script>
 import Info from '../components/Info'
-import { getInformationByType, readInformation } from '../../api/index.js'
+import { getInformationWithPage, readInformation } from '../../api/index.js'
 export default {
   components: {
     Info
@@ -75,7 +75,7 @@ export default {
   created () {
     this.loading = true
     let path = this.flag1[this.$route.path]
-    getInformationByType(path, 15, this.currentPage).then(res => {
+    getInformationWithPage(path, 15, this.currentPage).then(res => {
       if (res.data.status === 1) {
         let data = res.data.data
         if (!data || data.recordList === null) {
