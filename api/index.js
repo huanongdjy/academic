@@ -10,29 +10,40 @@ export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
     pageSize,
     type
   }
-  console.log('JSON.stringify(inputjson): ' + JSON.stringify(inputjson))
   return axios({
     url: '/getInformationWithPage',
     data: inputjson,
-    contentType : "application/json;charset=utf-8",
     // data: inputjson,
     method: 'post',
     withCredentials: true
   })
-    .then(response => {
-      console.log('返回消息')
-      console.log(response.data)
-    })
-    .catch(e => {
-      console.log('错误消息')
-      console.log(e)
-    })
+  // .then(response => {
+  //   console.log('返回消息')
+  //   console.log(response.data)
+  // })
+  // .catch(e => {
+  //   console.log('错误消息')
+  //   console.log(e)
+  // })
 }
 
 export function readInformation (id) {
   return axios({
     url: `readInformation.action`,
     data: 'inputjson=' + id,
+    method: 'post',
+    withCredentials: true
+  })
+}
+
+export function search (type, content) {
+  var inputjson = {
+    type,
+    content
+  }
+  return axios({
+    url: 'search',
+    data: inputjson,
     method: 'post',
     withCredentials: true
   })

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Qs from 'qs'
+// import Qs from 'qs'
 
 // import cookie from '../../static/js/cookie.js'
 
@@ -56,7 +56,6 @@ axios.defaults.baseURL = 'http://localhost:8083' //   默认地址
 // http response 拦截器
 axios.interceptors.response.use(
   response => {
-    console.log('response' + response.data.resultCode)
     if (response.data.resultCode === '404') {
       // console.log("response.data.resultCode是404")
       // 返回 错误代码-1 清除ticket信息并跳转到登录页面
@@ -87,16 +86,16 @@ axios.interceptors.response.use(
 // }
 export default axios
 
-export function fetch (url, params) {
-  return new Promise((resolve, reject) => {
-    axios.post(url, params)
-      .then(response => {
-        resolve(response.data);
-      }, err => {
-        reject(err);
-      })
-      .catch((error) => {
-        reject(error)
-      })
-  })
-}
+// export function fetch (url, params) {
+//   return new Promise((resolve, reject) => {
+//     axios.post(url, params)
+//       .then(response => {
+//         resolve(response.data)
+//       }, err => {
+//         reject(err)
+//       })
+//       .catch((error) => {
+//         reject(error)
+//       })
+//   })
+// }
