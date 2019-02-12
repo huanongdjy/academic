@@ -36,10 +36,10 @@ export function readInformation (id) {
   })
 }
 
-export function search (type, content) {
+export function search (type, title) {
   var inputjson = {
     type,
-    content
+    title
   }
   return axios({
     url: 'search',

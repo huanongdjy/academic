@@ -39,8 +39,8 @@
             <el-menu-item index="8">
               <el-input placeholder="请输入内容" v-model="input" class="input-with-select" size="small">
                 <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
-                  <el-option label="学术活动" value="1"></el-option>
-                  <el-option label="学术成果" value="2"></el-option>
+                  <el-option label="学术活动" value="activity"></el-option>
+                  <el-option label="学术成果" value="achievement"></el-option>
                 </el-select>
                 <el-button slot="append" type="primary" icon="el-icon-search" @click="search"></el-button>
               </el-input>
