@@ -5,7 +5,7 @@
       <div class="banner">
         <div class="banner-menu">
           <ul class="banner-menu-ul">
-            <li @click="dialogVisible = true;flag=true" v-if="!user">登录</li>
+            <!-- <li @click="dialogVisible = true;flag=true" v-if="!user">登录</li> -->
             <!-- <li v-if="user">
               <img :src="baseUrl + user.portrait" class="portrait"/>
             </li>
@@ -38,11 +38,11 @@
             <el-menu-item index="6" @click="goto('/knowledge')">相关知识</el-menu-item>
             <el-menu-item index="8">
               <el-input placeholder="请输入内容" v-model="input" class="input-with-select" size="small">
-                <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:90px">
+                <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
                   <el-option label="学术活动" value="1"></el-option>
                   <el-option label="学术成果" value="2"></el-option>
                 </el-select>
-                <el-button slot="append" type="primary" icon="el-icon-search"></el-button>
+                <el-button slot="append" type="primary" icon="el-icon-search" @click="search"></el-button>
               </el-input>
             </el-menu-item>
           </el-menu>
@@ -53,17 +53,23 @@
 </template>
 
 <script>
+import {search} from '../../api/index'
 export default {
   data () {
     return {
       activeIndex: '1',
-      activeIndex2: '1'
+      activeIndex2: '1',
+      input: '',
+      select: ''
     }
   },
   methods: {
     goto (url) {
       let router = this.$router
       router.push(url)
+    },
+    search () {
+      search(this.select, this.input)
     }
   }
 }

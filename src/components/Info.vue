@@ -13,9 +13,9 @@
     </div> -->
     <div class="news-wrapper">
       <div v-if="info.length === 0" class="text-warning">暂无数据</div>
-      <div class="news-list" v-for="item in info" :key="item.informationId" :class="{'big': big}">
-        <span class="text" :class="{'small': noTime, 'long': big}" :title="item.title" @click="selectItem(item.informationId)">{{item.title}}</span>
-        <span class="time" v-if="!noTime">{{item.time}}</span>
+      <div class="news-list" v-for="item in info" :key="item.id" :class="{'big': big}">
+        <span class="text" :class="{'small': noTime, 'long': big}" :title="item.title" @click="selectItem(item.id)">{{item.title}}</span>
+        <span class="time" v-if="!noTime">{{item.time | formatDate }}</span>
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@
 
 <script>
 // import {URL} from '../../api/variable'
+import { formatDate } from '../../api/data'
 export default {
   // created() {
   //   if (this.infoType === 'news') {
@@ -36,6 +37,12 @@ export default {
   //     baseUrl: URL
   //   }
   // },
+  filters: {
+    formatDate (time) {
+      let date = new Date()
+      return formatDate(date, 'yyyy-MM-dd')
+    }
+  },
   props: {
     info: {
       type: Array,
@@ -87,6 +94,7 @@ export default {
         line-height: 35px
         font-size: 15px
         .text
+          text-align: left
           overflow: hidden;
           text-overflow:ellipsis;
           white-space: nowrap;

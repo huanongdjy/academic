@@ -10,8 +10,8 @@
         <div slot="header" class="clearfix">
           <span>{{flag[$route.params.name]}}</span>
         </div>
-        <info :info="news" @select="selectItem" big></info>
-        <div class="pagination" v-if="news.length > 0">
+        <info :info="infolist" @select="selectItem" big></info>
+        <div class="pagination" v-if="infolist.length > 0">
           <el-pagination
             background
             layout="prev, pager, next"
@@ -39,7 +39,7 @@ export default {
   },
   data () {
     return {
-      news: [],
+      infolist: [],
       infoData: {},
       loading: false,
       flag: {
@@ -64,34 +64,80 @@ export default {
   },
   methods: {
     selectItem (id) {
-      this.infoData = this.news.find(item => {
-        return item.informationId === id
+      var instance = this
+      this.infoData = instance.infolist.find(item => {
+        return item.id === id
       })
       this.isShow = false
       this.$router.push(this.$route.path + '/' + id)
       readInformation(id)
-    }
-  },
-  created () {
-    this.loading = true
-    let path = this.flag1[this.$route.path]
-    getInformationWithPage(path, 15, this.currentPage).then(res => {
-      if (res.data.status === 1) {
-        let data = res.data.data
-        if (!data || data.recordList === null) {
-          this.news = []
-          this.loading = false
+    },
+    changePage (currentPage) {
+      getInformationWithPage(this.flag1[this.$route.path], this.pageSize, this.currentPage).then(res => {
+        let data = res.data
+        if (!data) {
           return
         }
         this.pageCount = data.pageCount
-        data.recordList.forEach(item => {
-          item.time = item.time.slice(0, 10)
-        })
-        this.news = data.recordList
+        // data.recordList.forEach(item => {
+        //   item.time = item.time.slice(0, 10)
+        // })
+        // this.infolist = data.recordList
+      })
+    }
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.isShow = true
+      console.log('infolist: to.query.infoData' + to.query.infoData)
+      if (to.query.infoData) {
+        vm.isShow = false
+        vm.$router.push(to.path + '/' + to.query.infoData.informationId)
+        vm.infoData = to.query.infoData
       }
-      this.loading = false
     })
+  },
+  beforeRouteUpdate (to, from, next) {
+    var instance = this
+    if (!to.params.id) {
+      next()
+      this.isShow = true
+      this.loading = true
+      let path = this.flag1[to.path]
+      getInformationWithPage(path, 15, this.currentPage).then(res => {
+        // console.log(res)
+        console.log(res.data.page)
+        if (res.data.resultCode === '200') {
+          instance.infolist = res.data.page
+        } else {
+          alert('没有数据')
+        }
+        this.loading = false
+      })
+    } else {
+      next()
+    }
   }
+  // created () {
+  //   this.loading = true
+  //   let path = this.flag1[this.$route.path]
+  //   getInformationWithPage(path, 15, this.currentPage).then(res => {
+  //     // if (res.data.status === 1) {
+  //     //   let data = res.data.data
+  //     //   if (!data || data.recordList === null) {
+  //     //     this.infolist = []
+  //     //     this.loading = false
+  //     //     return
+  //     //   }
+  //     //   this.pageCount = data.pageCount
+  //     //   data.recordList.forEach(item => {
+  //     //     item.time = item.time.slice(0, 10)
+  //     //   })
+  //     //   this.infolist = data.recordList
+  //     // }
+  //     this.loading = false
+  //   })
+  // }
 }
 </script>
 <style lang="stylus" scoped>

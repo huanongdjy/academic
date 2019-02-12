@@ -34,13 +34,22 @@
 import show from './Show'
 import info from './Info'
 // import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import { readInformation } from '../../api/index.js'
+import { getInformationWithPage, readInformation } from '../../api/index.js'
 export default {
   components: {
     show,
     info
     // swiper,
     // swiperSlide
+  },
+  data () {
+    return {
+      newactivity: [],
+      oldactivity: [],
+      news: [],
+      achievements: [],
+      knowledge: []
+    }
   },
   methods: {
     selectItem (id, title) {
@@ -71,6 +80,19 @@ export default {
       })
       this.$router.push({path: this.flag[title].path, query: {infoData}})
       readInformation(id)
+    },
+    currengetInformationWithPage (type) {
+      getInformationWithPage(type, 10, 1).then(res => {
+        let data = res.data.page
+        console.log(data)
+        if (!data) {
+          return
+        }
+        // data.forEach(item => {
+        //   item.time = item.time.slice(0, 10)
+        // })
+        this[type] = data
+      })
     }
     // stop () {
     //   this.$refs.mySwiper.swiper.stopAutoplay()
@@ -78,6 +100,14 @@ export default {
     // play () {
     //   this.$refs.mySwiper.swiper.startAutoplay()
     // }
+  },
+  mounted () {
+    console.log('created')
+    this.currengetInformationWithPage('news')
+    this.currengetInformationWithPage('achievements')
+    this.currengetInformationWithPage('newactivity')
+    this.currengetInformationWithPage('oldactivity')
+    this.currengetInformationWithPage('knowledge')
   }
 }
 </script>
