@@ -42,7 +42,7 @@
                   <el-option label="学术活动" value="activity"></el-option>
                   <el-option label="学术成果" value="achievement"></el-option>
                 </el-select>
-                <el-button slot="append" type="primary" icon="el-icon-search" @click="search"></el-button>
+                <el-button slot="append" type="primary" icon="el-icon-search" @click="_search"></el-button>
               </el-input>
             </el-menu-item>
           </el-menu>
@@ -54,22 +54,45 @@
 
 <script>
 import {search} from '../../api/index'
+import { mapMutations } from 'vuex'
 export default {
   data () {
     return {
       activeIndex: '1',
       activeIndex2: '1',
       input: '',
-      select: ''
+      select: '',
+      result: []
     }
   },
+  // computed: {
+  //   ...mapMutations([""])
+  // },
   methods: {
+    ...mapMutations({ setSearchResult: 'setSearchResult' }),
     goto (url) {
       let router = this.$router
       router.push(url)
     },
-    search () {
-      search(this.select, this.input)
+    _search () {
+      if (this.select === '') {
+        this.$message('请选择类别')
+      } else if (this.input === '') {
+        this.$message('请输入')
+      } else {
+        search(this.select, this.input).then(res => {
+          res.data.forEach(element => {
+            this.result.push(element)
+          })
+          this.result.splice(0, 1)
+          if (res.data[0].resultCode === '200') {
+            this.setSearchResult(this.result)
+          } else {
+            console.log('else')
+          }
+        })
+        this.goto('/search')
+      }
     }
   }
 }

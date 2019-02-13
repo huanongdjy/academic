@@ -27,6 +27,7 @@
 <script>
 import Info from '../components/Info'
 import { getInformationWithPage, readInformation } from '../../api/index.js'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Info
@@ -47,20 +48,27 @@ export default {
         'achievements': '学术成果',
         'knowledge': '相关知识',
         'newactivity': '近期活动',
-        'oldactivity': '往期活动'
+        'oldactivity': '往期活动',
+        'search': '查询结果'
       },
       flag1: {
         '/news': 'news',
         '/achievements': 'achievements',
         '/chances': 'chances',
         '/newactivity': 'newactivity',
-        '/oldactivity': 'oldactivity'
+        '/oldactivity': 'oldactivity',
+        '/search': 'search'
       },
       isShow: true,
       currentPage: 1,
       pageSize: 15,
       pageCount: 4
     }
+  },
+  computed: {
+    ...mapGetters({
+      getSearchResult: 'getSearchResult'
+    })
   },
   methods: {
     selectItem (id) {
@@ -101,19 +109,26 @@ export default {
     var instance = this
     if (!to.params.id) {
       next()
-      this.isShow = true
-      this.loading = true
       let path = this.flag1[to.path]
-      getInformationWithPage(path, 15, this.currentPage).then(res => {
-        // console.log(res)
-        console.log(res.data.page)
-        if (res.data.resultCode === '200') {
-          instance.infolist = res.data.page
-        } else {
-          alert('没有数据')
-        }
-        this.loading = false
-      })
+      if (!(path === 'search')) {
+        this.isShow = true
+        this.loading = true
+        console.log(path)
+        getInformationWithPage(path, 15, this.currentPage).then(res => {
+          // console.log(res)
+          console.log(res.data.page)
+          if (res.data.resultCode === '200') {
+            instance.infolist = res.data.page
+          } else {
+            alert('没有数据')
+          }
+          this.loading = false
+        })
+      } else {
+        // console.log('else, getSearchResult: ' + this.getSearchResult)
+        instance.infolist = this.getSearchResult
+        console.log(instance.infolist)
+      }
     } else {
       next()
     }
