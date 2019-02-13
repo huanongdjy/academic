@@ -81,12 +81,13 @@ export default {
         this.$message('请输入')
       } else {
         search(this.select, this.input).then(res => {
+          this.result = []
           res.data.forEach(element => {
             this.result.push(element)
           })
           this.result.splice(0, 1)
           if (res.data[0].resultCode === '200') {
-            this.setSearchResult(this.result)
+            this.setSearchResult(JSON.stringify(this.result))
           } else {
             console.log('else')
           }

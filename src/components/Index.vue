@@ -34,7 +34,7 @@
 import show from './Show'
 import info from './Info'
 // import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import { getInformationWithPage, readInformation } from '../../api/index.js'
+import { getInformationWithPage } from '../../api/index.js'
 export default {
   components: {
     show,
@@ -76,15 +76,14 @@ export default {
         }
       }
       let infoData = this[this.flag[title].data].find(item => {
-        return item.informationId === id
+        return item.id === id
       })
       this.$router.push({path: this.flag[title].path, query: {infoData}})
-      readInformation(id)
+      // readInformation(id, )
     },
     currengetInformationWithPage (type) {
       getInformationWithPage(type, 10, 1).then(res => {
         let data = res.data.page
-        console.log(data)
         if (!data) {
           return
         }
@@ -102,7 +101,6 @@ export default {
     // }
   },
   mounted () {
-    console.log('created')
     this.currengetInformationWithPage('news')
     this.currengetInformationWithPage('achievements')
     this.currengetInformationWithPage('newactivity')

@@ -18,13 +18,13 @@ export default new Router({
     {
       path: '/:name',
       name: 'InfoList',
-      component: () => import('@/components/InfoList')
-      // children: [
-      //   {
-      //     path: ':id',
-      //     component: () => import('@/components/InfoDetail')
-      //   }
-      // ]
+      component: () => import('@/components/InfoList'),
+      children: [
+        {
+          path: ':id',
+          component: () => import('@/components/EssayDetail')
+        }
+      ]
     }
   ]
 })

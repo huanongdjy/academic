@@ -97,26 +97,29 @@ export default {
   beforeRouteEnter (to, from, next) {
     next(vm => {
       vm.isShow = true
-      console.log('infolist: to.query.infoData' + to.query.infoData)
+      // console.log('infolist: to.query.infoData' + to.query.infoData)
       if (to.query.infoData) {
         vm.isShow = false
         vm.$router.push(to.path + '/' + to.query.infoData.informationId)
         vm.infoData = to.query.infoData
       }
+      // 刷新后，也能显示搜索的值
+      if (to.path === '/search') {
+        vm.infolist = JSON.parse(vm.getSearchResult)
+      }
     })
   },
   beforeRouteUpdate (to, from, next) {
     var instance = this
+    console.log(to.path)
     if (!to.params.id) {
       next()
       let path = this.flag1[to.path]
       if (!(path === 'search')) {
         this.isShow = true
         this.loading = true
-        console.log(path)
         getInformationWithPage(path, 15, this.currentPage).then(res => {
           // console.log(res)
-          console.log(res.data.page)
           if (res.data.resultCode === '200') {
             instance.infolist = res.data.page
           } else {
@@ -125,9 +128,7 @@ export default {
           this.loading = false
         })
       } else {
-        // console.log('else, getSearchResult: ' + this.getSearchResult)
-        instance.infolist = this.getSearchResult
-        console.log(instance.infolist)
+        instance.infolist = JSON.parse(this.getSearchResult)
       }
     } else {
       next()
@@ -166,14 +167,14 @@ export default {
       line-height: 25px
       margin-left: 10px
     .list-show
-      margin-top: 10px
+      margin: 10px
       span
         font-size: 18px
         font-weight: bold
       .pagination
         position: relative
         margin: 0 auto
-        margin-left: 50%
+        margin-left: 35%
         transform: translateX(-25%)
       .el-select
          width: 130px;
