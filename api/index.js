@@ -2,9 +2,6 @@ import axios from './axios'
 
 // 获取首页信息展示
 export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
-  if (type === 'cultivation' || type === 'knowledge') {
-    pageSize = 10
-  }
   var inputjson = {
     currentPage,
     pageSize,
