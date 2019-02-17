@@ -10,7 +10,7 @@
         <div slot="header" class="clearfix">
           <span>{{flag[$route.params.name]}}</span>
         </div>
-        <info :info="infolist" @select="selectItem" big></info>
+        <info :info=infolist @select="selectItem" big></info>
         <div class="pagination" v-if="infolist.length > 0">
           <el-pagination
             background
@@ -27,7 +27,7 @@
 <script>
 import Info from '../components/Info'
 import { getInformationWithPage, readInformation } from '../../api/index.js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
     Info
@@ -71,6 +71,7 @@ export default {
     })
   },
   methods: {
+    ...mapMutations({setInfoData: 'setInfoData'}),
     selectItem (id) {
       var instance = this
       this.infoData = instance.infolist.find(item => {
@@ -78,29 +79,29 @@ export default {
       })
       this.isShow = false
       this.$router.push(this.$route.path + '/' + id)
+      this.setInfoData(JSON.stringify(this.infoData))
       readInformation(id)
     },
     changePage (currentPage) {
+      console.log(this.flag1[this.$route.path])
       getInformationWithPage(this.flag1[this.$route.path], this.pageSize, this.currentPage).then(res => {
-        let data = res.data
-        if (!data) {
-          return
+        if (res.data.resultCode === '200') {
+          this.infolist = res.data.page.list
         }
-        this.pageCount = data.pageCount
-        // data.recordList.forEach(item => {
-        //   item.time = item.time.slice(0, 10)
-        // })
-        // this.infolist = data.recordList
       })
+    }
+  },
+  watch: {
+    getSearchResult (val) {
+      this.infolist = JSON.parse(val)
     }
   },
   beforeRouteEnter (to, from, next) {
     next(vm => {
       vm.isShow = true
-      // console.log('infolist: to.query.infoData' + to.query.infoData)
       if (to.query.infoData) {
         vm.isShow = false
-        vm.$router.push(to.path + '/' + to.query.infoData.informationId)
+        vm.$router.push(to.path + '/' + to.query.infoData.id)
         vm.infoData = to.query.infoData
       }
       // 刷新后，也能显示搜索的值
@@ -111,7 +112,6 @@ export default {
   },
   beforeRouteUpdate (to, from, next) {
     var instance = this
-    console.log(to.path)
     if (!to.params.id) {
       next()
       let path = this.flag1[to.path]
@@ -119,11 +119,12 @@ export default {
         this.isShow = true
         this.loading = true
         getInformationWithPage(path, 15, this.currentPage).then(res => {
-          // console.log(res)
+          // console.log('res.data' + res.data.page.total)
           if (res.data.resultCode === '200') {
-            instance.infolist = res.data.page
+            instance.infolist = res.data.page.list
+            instance.pageCount = res.data.page.pages // 页数
           } else {
-            alert('没有数据')
+            instance.infolist = []
           }
           this.loading = false
         })

@@ -8,10 +8,10 @@
     <div class="content-wrapper">
       <h1 class="title">{{infoData.title}}</h1>
       <div class="time">
-      <span class="item">发布时间: {{infoData.time}}</span>
-      <span class="item">来源: {{infoData.comeFrom}}</span>
+      <span class="item">发布时间: {{infoData.time | formatDate}}</span>
+      <!-- <span class="item">来源: {{infoData.comeFrom}}</span> -->
       <span class="item">作者: {{infoData.author}} </span>
-      <span class="item">点击量: {{infoData.clickNum}}</span>
+      <span class="item">阅读量: {{infoData.read}}</span>
       </div>
       <div class="content">摘要：{{infoData.summary}}</div>
       <div class="content">
@@ -21,6 +21,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+import { formatDate } from '../../api/data'
 require('quill/dist/quill.core.css')
 require('quill/dist/quill.snow.css')
 require('quill/dist/quill.bubble.css')
@@ -35,10 +37,20 @@ export default {
       default: () => {}
     }
   },
+  filters: {
+    formatDate (time) {
+      let date = new Date()
+      return formatDate(date, 'yyyy-MM-dd')
+    }
+  },
+  computed: {
+    ...mapGetters({
+      getInfoData: 'getInfoData'
+    })
+  },
   created () {
-    console.log(JSON.stringify(this.infoData))
     if (JSON.stringify(this.infoData) === '{}') {
-      this.$router.push('/')
+      this.infoData = JSON.parse(this.getInfoData)
     }
   },
   data () {
@@ -48,7 +60,8 @@ export default {
         'achievements': '学术成果',
         'newactivity': '近期活动',
         'oldactivity': '往期活动',
-        'knowledge': '相关知识'
+        'knowledge': '相关知识',
+        'search': '查询结果'
       }
     }
   }

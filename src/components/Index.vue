@@ -11,6 +11,21 @@
           <info :info="oldactivity" :hasImg="true" :infoType="'往期活动'" @select="selectItem"></info>
         </show>
       </div>
+      <div class="login">
+        <show :title=logintitle  :isMore="false">
+          <div class="login-wrapper">
+            <div class="text">当前在线人数为：{{this.onlineCount}}</div>
+            <!-- <div class="btn-wrapper">
+              <el-button type="primary" @click="dialogVisible = true; flag=true" v-if="!user">登陆</el-button>
+              <el-button type="primary" @click="dialogVisible = true; flag=false" v-if="!user">注册</el-button>
+              <span v-if="user">欢迎您，{{user.userName}}</span>
+            </div> -->
+            <!-- <div class="btn"><el-button size="small" type="primary" v-if="user" @click="$router.push('/personal')">进入个人中心</el-button></div> -->
+            <div class="btn"><a target="_blank"  href="http://39.108.101.192:9528"><el-button type="primary" >进入后台管理系统</el-button></a></div>
+
+          </div>
+        </show>
+      </div>
       <div class="show-news">
         <show :title="'学术新闻'">
           <info :info="news" :hasImg="true" :infoType="'学术新闻'" @select="selectItem"></info>
@@ -34,7 +49,8 @@
 import show from './Show'
 import info from './Info'
 // import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import { getInformationWithPage } from '../../api/index.js'
+import { getInformationWithPage, readInformation } from '../../api/index.js'
+import { mapMutations } from 'vuex'
 export default {
   components: {
     show,
@@ -48,10 +64,13 @@ export default {
       oldactivity: [],
       news: [],
       achievements: [],
-      knowledge: []
+      knowledge: [],
+      onlineCount: '',
+      logintitle: '欢迎来到学术活动系统'
     }
   },
   methods: {
+    ...mapMutations({setInfoData: 'setInfoData'}),
     selectItem (id, title) {
       this.flag = {
         '学术新闻': {
@@ -78,18 +97,16 @@ export default {
       let infoData = this[this.flag[title].data].find(item => {
         return item.id === id
       })
+      this.setInfoData(JSON.stringify(infoData))
       this.$router.push({path: this.flag[title].path, query: {infoData}})
-      // readInformation(id, )
+      readInformation(id, this.flag[title].data)
     },
     currengetInformationWithPage (type) {
       getInformationWithPage(type, 10, 1).then(res => {
-        let data = res.data.page
+        let data = res.data.page.list
         if (!data) {
           return
         }
-        // data.forEach(item => {
-        //   item.time = item.time.slice(0, 10)
-        // })
         this[type] = data
       })
     }
@@ -115,6 +132,26 @@ export default {
   position: relative
   width: 1200px
   margin: 10px auto
+  .login
+    flex: 1
+    // width: 100px
+    // margin-left: 20px
+    .login-wrapper
+      height: 170px
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      .text
+        margin-bottom: 15px
+        font-size: 18px
+      .btn
+        margin-top :10px
+      span
+        display: inline-block
+        font-weight: bold
+        font-size: 16px
+        margin-right: 10px
   .show-activity
     flex: 1
     margin-right: 10px

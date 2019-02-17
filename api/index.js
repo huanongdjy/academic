@@ -24,10 +24,14 @@ export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
   // })
 }
 
-export function readInformation (id) {
+export function readInformation (id, type) {
+  var inputjson = {
+    id,
+    type
+  }
   return axios({
-    url: `readInformation.action`,
-    data: 'inputjson=' + id,
+    url: `/readInformation`,
+    data: inputjson,
     method: 'post',
     withCredentials: true
   })

@@ -46,9 +46,7 @@ export default {
   props: {
     info: {
       type: Array,
-      default: function () {
-        return []
-      }
+      default: () => []
     },
     infoType: {
       type: String,
