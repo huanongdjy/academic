@@ -11,7 +11,7 @@
       <span class="item">发布时间: {{infoData.time | formatDate}}</span>
       <!-- <span class="item">来源: {{infoData.comeFrom}}</span> -->
       <span class="item">作者: {{infoData.author}} </span>
-      <span class="item">阅读量: {{infoData.read}}</span>
+      <span class="item">阅读量: {{infoData.read_num}}</span>
       </div>
       <div class="content">摘要：{{infoData.summary}}</div>
       <div class="content">

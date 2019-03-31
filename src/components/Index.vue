@@ -21,7 +21,7 @@
               <span v-if="user">欢迎您，{{user.userName}}</span>
             </div> -->
             <!-- <div class="btn"><el-button size="small" type="primary" v-if="user" @click="$router.push('/personal')">进入个人中心</el-button></div> -->
-            <div class="btn"><a target="_blank"  href="http://39.108.101.192:9528"><el-button type="primary" >进入后台管理系统</el-button></a></div>
+            <div class="btn"><a target="_blank"  href="http://182.254.187.57:9999/managerview/index.html"><el-button type="primary" >进入后台管理系统</el-button></a></div>
 
           </div>
         </show>

@@ -27,6 +27,9 @@
           </ul>
         </div>
       </div>
+      <div class="imgbgr">
+        <img src="../assets/logoTransparent.png"/>
+      </div>
       <div class="nav">
         <ul class="navbar">
           <el-menu  class="el-menu-demo" mode="horizontal" text-color="black" active-text-color="#409eff">
@@ -105,12 +108,15 @@ export default {
     z-index: -1
     // height: 290px
     width: 100%
+  .imgbgr
+    background-color: #6495ED
+    width: 100%
   .header-wrapper
     width: 100%
     margin: 0 auto
     .banner
       z-index: 1;
-      height :200px
+      // height :200px
       .banner-menu
         box-shadow: 0 1px 2px rgba(0,0,0,.1)
         background-color: hsla(0,0%,100%,.6)

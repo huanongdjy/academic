@@ -5,7 +5,7 @@ export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
   var inputjson = {
     currentPage,
     pageSize,
-    type
+    type,
   }
   return axios({
     url: '/getInformationWithPage',

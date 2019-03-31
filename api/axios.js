@@ -8,7 +8,7 @@ axios.defaults.timeout = 10000 //  超时时间
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 // axios.defaults.headers.post['Content-Type'] = 'text/plain'
-axios.defaults.baseURL = 'http://localhost:8083' //   默认地址
+axios.defaults.baseURL = 'http://182.254.187.57:8083' //   默认地址
 
 // 整理数据
 // axios.defaults.transformRequest = function (data) {
