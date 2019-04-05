@@ -34,12 +34,11 @@
         <ul class="navbar">
           <el-menu  class="el-menu-demo" mode="horizontal" text-color="black" active-text-color="#409eff">
             <el-menu-item index="1"  @click="goto('/')">首页</el-menu-item>
-            <el-menu-item index="3" @click="goto('/news')">学术新闻</el-menu-item>
+            <!-- <el-menu-item index="3" @click="goto('/news')">学术新闻</el-menu-item> -->
             <el-menu-item index="2" @click="goto('/newactivity')">近期活动</el-menu-item>
             <el-menu-item index="4" @click="goto('/oldactivity')">往期活动</el-menu-item>
             <el-menu-item index="5" @click="goto('/achievements')">学术成果</el-menu-item>
-            <el-menu-item index="6" @click="goto('/knowledge')">相关知识</el-menu-item>
-            <el-menu-item index="8">
+            <el-menu-item index="8" style="margin-left:350px">
               <el-input placeholder="请输入内容" v-model="input" class="input-with-select" size="small">
                 <el-select v-model="select" slot="prepend" placeholder="请选择" style="width:100px">
                   <el-option label="学术活动" value="activity"></el-option>
@@ -85,14 +84,15 @@ export default {
       } else {
         search(this.select, this.input).then(res => {
           this.result = []
-          res.data.forEach(element => {
-            this.result.push(element)
-          })
-          this.result.splice(0, 1)
-          if (res.data[0].resultCode === '200') {
+          console.log(res.data.resultCode === 400)
+          if (res.data.resultCode === 400) {
+            this.$message(res.data.message)
+          } else if (res.data[0].resultCode === '200') {
+            res.data.forEach(element => {
+              this.result.push(element)
+            })
+            this.result.splice(0, 1)
             this.setSearchResult(JSON.stringify(this.result))
-          } else {
-            console.log('else')
           }
         })
         this.goto('/search')

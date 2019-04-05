@@ -4,8 +4,8 @@
       Copyright 2019 华南农业大学数学与信息学院 版权所有
       <br>
       联系我们：
-      <span class="connect">Email:</span>
-      <span class="connect">QQ:</span>
+      <span class="connect">Email:12345678@qq.com</span>
+      <span class="connect">QQ:12345678</span>
     </div>
   </div>
 </template>

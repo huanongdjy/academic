@@ -10,7 +10,6 @@ export function getInformationWithPage (type, pageSize = 5, currentPage = 1) {
   return axios({
     url: '/getInformationWithPage',
     data: inputjson,
-    // data: inputjson,
     method: 'post',
     withCredentials: true
   })

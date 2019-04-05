@@ -13,7 +13,7 @@
       <span class="item">作者: {{infoData.author}} </span>
       <span class="item">阅读量: {{infoData.read_num}}</span>
       </div>
-      <div class="content">摘要：{{infoData.summary}}</div>
+      <div class="content" v-if="!(this.infoData.summary === undefined)">摘要：{{infoData.summary}}</div>
       <div class="content">
       <div class="ql-editor" v-html="infoData.content"></div>
       </div>
@@ -51,6 +51,8 @@ export default {
   created () {
     if (JSON.stringify(this.infoData) === '{}') {
       this.infoData = JSON.parse(this.getInfoData)
+      // console.log(Object.keys(this.infoData.summary).length > 0)
+      console.log(this.infoData.summary === undefined)
     }
   },
   data () {

@@ -1,14 +1,9 @@
 <template>
   <div class="index-wrapper">
     <div class="center-wrapper">
-      <div class="show-activity" >
-        <show :title="'近期活动'">
-          <info :info="newactivity" :hasImg="true" :infoType="'近期活动'" @select="selectItem"></info>
-        </show>
-      </div>
-      <div class="show-oldactivity" >
-        <show :title="'往期活动'">
-          <info :info="oldactivity" :hasImg="true" :infoType="'往期活动'" @select="selectItem"></info>
+      <div class="show-achievements">
+        <show :title="'学术成果'">
+          <info :info="achievements" :infoType="'学术成果'" @select="selectItem"></info>
         </show>
       </div>
       <div class="login">
@@ -21,26 +16,31 @@
               <span v-if="user">欢迎您，{{user.userName}}</span>
             </div> -->
             <!-- <div class="btn"><el-button size="small" type="primary" v-if="user" @click="$router.push('/personal')">进入个人中心</el-button></div> -->
-            <div class="btn"><a target="_blank"  href="http://182.254.187.57:9999/managerview/index.html"><el-button type="primary" >进入后台管理系统</el-button></a></div>
+            <div class="btn"><a target="_blank"  href="http://localhost:8080/managerview/index.html"><el-button type="primary" >进入后台管理系统</el-button></a></div>
 
           </div>
         </show>
       </div>
-      <div class="show-news">
+      <div class="show-activity" >
+        <show :title="'近期活动'">
+          <info :info="newactivity" :hasImg="true" :infoType="'近期活动'" @select="selectItem"></info>
+        </show>
+      </div>
+      <div class="show-oldactivity" >
+        <show :title="'往期活动'">
+          <info :info="oldactivity" :hasImg="true" :infoType="'往期活动'" @select="selectItem"></info>
+        </show>
+      </div>
+      <!-- <div class="show-news">
         <show :title="'学术新闻'">
           <info :info="news" :hasImg="true" :infoType="'学术新闻'" @select="selectItem"></info>
         </show>
-      </div>
-      <div class="show-achievements">
-        <show :title="'学术成果'">
-          <info :info="achievements" :infoType="'学术成果'" @select="selectItem"></info>
-        </show>
-      </div>
-      <div class="show-chances">
+      </div> -->
+      <!-- <div class="show-chances">
         <show :title="'相关知识'">
           <info :info="knowledge" :infoType="'相关知识'" @select="selectItem"></info>
         </show>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -62,9 +62,7 @@ export default {
     return {
       newactivity: [],
       oldactivity: [],
-      news: [],
       achievements: [],
-      knowledge: [],
       onlineCount: '',
       logintitle: '欢迎来到学术活动系统'
     }
@@ -73,17 +71,9 @@ export default {
     ...mapMutations({setInfoData: 'setInfoData'}),
     selectItem (id, title) {
       this.flag = {
-        '学术新闻': {
-          path: 'news',
-          data: 'news'
-        },
         '学术成果': {
           path: 'achievements',
           data: 'achievements'
-        },
-        '相关知识': {
-          path: 'knowledge',
-          data: 'knowledge'
         },
         '近期活动': {
           path: 'newactivity',
@@ -118,11 +108,9 @@ export default {
     // }
   },
   mounted () {
-    this.currengetInformationWithPage('news')
     this.currengetInformationWithPage('achievements')
     this.currengetInformationWithPage('newactivity')
     this.currengetInformationWithPage('oldactivity')
-    this.currengetInformationWithPage('knowledge')
   }
 }
 </script>
@@ -133,9 +121,9 @@ export default {
   width: 1200px
   margin: 10px auto
   .login
-    flex: 1
-    // width: 100px
-    // margin-left: 20px
+    // flex: 1
+    width: 370px
+    margin-right: 10px
     .login-wrapper
       height: 170px
       display: flex
@@ -153,20 +141,21 @@ export default {
         font-size: 16px
         margin-right: 10px
   .show-activity
-    flex: 1
+    // flex: 1
     margin-right: 10px
+    width: 585px
   .show-oldactivity
-    flex: 1
+    // flex: 1
     margin-right: 10px
+    width: 585px
   .center-wrapper
     display: flex
+    margin-right: 10px
     justify-content: space-between
     flex-wrap: wrap
-    .show-news
-      flex: 1
-      margin-right: 10px
     .show-achievements
-      flex: 1
+      // flex: 1
+      width: 800px
       margin-right: 10px
     .show-chances
       flex: 1

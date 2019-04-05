@@ -10,7 +10,7 @@
         <div slot="header" class="clearfix">
           <span>{{flag[$route.params.name]}}</span>
         </div>
-        <info :info=infolist @select="selectItem" big></info>
+        <info :info=infolist :infoType=$route.params.name @select="selectItem" big></info>
         <div class="pagination" v-if="infolist.length > 0">
           <el-pagination
             background
@@ -61,7 +61,7 @@ export default {
       },
       isShow: true,
       currentPage: 1,
-      pageSize: 15,
+      pageSize: 10,
       pageCount: 4
     }
   },
@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     ...mapMutations({setInfoData: 'setInfoData'}),
-    selectItem (id) {
+    selectItem (id, type) {
       var instance = this
       this.infoData = instance.infolist.find(item => {
         return item.id === id
@@ -80,7 +80,7 @@ export default {
       this.isShow = false
       this.$router.push(this.$route.path + '/' + id)
       this.setInfoData(JSON.stringify(this.infoData))
-      readInformation(id)
+      readInformation(id, type)
     },
     changePage (currentPage) {
       console.log(this.flag1[this.$route.path])
@@ -118,7 +118,7 @@ export default {
       if (!(path === 'search')) {
         this.isShow = true
         this.loading = true
-        getInformationWithPage(path, 15, this.currentPage).then(res => {
+        getInformationWithPage(path, 10, this.currentPage).then(res => {
           // console.log('res.data' + res.data.page.total)
           if (res.data.resultCode === '200') {
             instance.infolist = res.data.page.list

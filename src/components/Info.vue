@@ -67,6 +67,7 @@ export default {
   },
   methods: {
     selectItem (id) {
+      console.log('infoType: ' + this.infoType)
       this.$emit('select', id, this.infoType)
     }
   }
